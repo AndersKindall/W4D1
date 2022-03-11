@@ -37,17 +37,18 @@ class KnightPathFinder
         trace_path_back(node.parent).push(node.value)
     end
     
-    def find_node(end_pos)
-        return @root_node if end_pos == @root_node.value
-        @root_node.children.each do |child|
-            target = find_path(child)
+    def find_node(end_pos, current_node)
+        return current_node if end_pos == current_node.value
+        current_node.children.each do |child|
+            target = find_node(end_pos, child)
             return target if target
         end
         nil
     end
 
     def find_path(end_pos)
-        trace_path_back(find_node(end_pos))
+        n_node = find_node(end_pos, @root_node)
+        trace_path_back(n_node)
     end
 
     def self.valid_moves(pos)
@@ -72,5 +73,5 @@ class KnightPathFinder
 end
 
 kpf = KnightPathFinder.new([0, 0])
-kpf.find_path([7, 6]) # => [[0, 0], [1, 2], [2, 4], [3, 6], [5, 5], [7, 6]]
-kpf.find_path([6, 2]) # => [[0, 0], [1, 2], [2, 0], [4, 1], [6, 2]]
+p kpf.find_path([7, 6]) # => [[0, 0], [1, 2], [2, 4], [3, 6], [5, 5], [7, 6]]
+p kpf.find_path([6, 2]) # => [[0, 0], [1, 2], [2, 0], [4, 1], [6, 2]]
